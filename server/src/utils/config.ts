@@ -7,6 +7,8 @@ dotenv.config();
 
 const Port = process.env.PORT || 4000;
 
+const Secret = process.env.Secret;
+
 const databaseConnection = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -19,5 +21,6 @@ const databaseConnection = async () => {
 
 module.exports = {
   Port,
+  Secret,
   databaseConnection,
 };
