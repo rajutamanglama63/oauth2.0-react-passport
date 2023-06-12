@@ -1,0 +1,44 @@
+.nav {
+  background-color: black;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.nav_wrapper {
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  color: white;
+}
+
+.nav_list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.nav_list_item {
+  list-style: none;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
