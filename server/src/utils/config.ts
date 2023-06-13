@@ -7,7 +7,7 @@ dotenv.config();
 
 const Port = process.env.PORT || 4000;
 
-const Secret = process.env.Secret;
+const Secret = process.env.SECRET;
 
 const databaseConnection = async () => {
   try {

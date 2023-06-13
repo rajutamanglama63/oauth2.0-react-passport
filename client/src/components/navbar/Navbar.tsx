@@ -20,7 +20,7 @@ const Navbar = () => {
           </li>
           <li className={styles.nav_list_item}>Raju Lama</li>
           <li className={styles.nav_list_item}>
-            <Link className={styles.link} to="/login">
+            <Link className={styles.link} to="/signin">
               Signin
             </Link>
           </li>
