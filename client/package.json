@@ -10,6 +10,7 @@
     "@types/node": "^16.18.35",
     "@types/react": "^18.2.11",
     "@types/react-dom": "^18.2.4",
+    "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.12.1",
@@ -42,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/axios": "^0.14.0",
     "@types/react-router-dom": "^5.3.3"
   }
 }

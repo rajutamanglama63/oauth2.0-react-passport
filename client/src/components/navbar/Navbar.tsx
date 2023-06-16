@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import styles from "./navbar.module.css";
 import { Link } from "react-router-dom";
+import { OathContext } from "../../context/oauthContext";
 
 const Navbar = () => {
+  const authUser = useContext(OathContext);
+  console.log("auth-user: ", authUser);
   return (
     <div className={styles.nav}>
       <div className={styles.nav_wrapper}>

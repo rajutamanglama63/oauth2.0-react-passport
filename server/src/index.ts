@@ -75,6 +75,10 @@ app.get(
   }
 );
 
+app.get("/getauthuser", (req, res) => {
+  res.send(req.user);
+});
+
 app.get("/", (req, res) => {
   res.send("hello world");
 });
