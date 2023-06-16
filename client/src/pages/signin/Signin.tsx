@@ -8,7 +8,7 @@ const Signin = () => {
   };
 
   const github = () => {
-    // window.open("http://localhost:5000/auth/google", "_self");
+    window.open("http://localhost:5000/auth/github", "_self");
   };
   return (
     <div className={styles.signin}>

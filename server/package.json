@@ -19,6 +19,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^7.2.3",
     "passport": "^0.6.0",
+    "passport-github": "^1.1.0",
     "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "@types/express-session": "^1.17.7",
     "@types/mongoose": "^5.11.97",
     "@types/passport": "^1.0.12",
+    "@types/passport-github": "^1.1.7",
     "@types/passport-google-oauth20": "^2.0.11",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
