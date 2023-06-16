@@ -56,7 +56,14 @@
   font-weight: bold;
   margin-bottom: 20px;
   cursor: pointer;
+}
+
+.google {
   background-color: #df4930;
+}
+
+.github {
+  background-color: grey;
 }
 
 .icon {
