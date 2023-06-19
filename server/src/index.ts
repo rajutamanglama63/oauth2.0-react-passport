@@ -69,13 +69,10 @@ passport.use(
       try {
         const userDoc = await User.findOne({ googleId: profile.id });
         if (!userDoc) {
-          console.log("came to this point..");
           const newUser = new User({
             googleId: profile.id,
             username: profile.name.givenName,
           });
-
-          console.log("user created: ", newUser);
 
           await newUser.save();
           cb(null, newUser);
@@ -88,27 +85,6 @@ passport.use(
   )
 );
 
-// const userDetectionOrCreation = async (cbFunc: any, profile: any) => {
-//   try {
-//     const userDoc = User.findOne({ googleId: profile.id });
-//     if (!userDoc) {
-//       console.log("came to this point..");
-//       const newUser = new User({
-//         googleId: profile.id,
-//         username: profile.name.givenName,
-//       });
-
-//       console.log("user created: ", newUser);
-
-//       await newUser.save();
-//       cbFunc(null, newUser);
-//     }
-//   } catch (error) {
-//     console.log("error from user creation: ", error);
-//     cbFunc(error, null);
-//   }
-// };
-
 passport.use(
   new GitHubStrategy(
     {
@@ -118,10 +94,31 @@ passport.use(
     },
 
     // this function gets called on successfull authentication
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function (
+      accessToken: any,
+      refreshToken: any,
+      profile: any,
+      cb: any
+    ) {
       console.log("profile: ", profile);
-      cb(null, profile);
+      // cb(null, profile);
       // save user in DB
+
+      try {
+        const userDoc = await User.findOne({ githubId: profile.id });
+        if (!userDoc) {
+          const newUser = new User({
+            githubId: profile.id,
+            username: profile.username,
+          });
+
+          await newUser.save();
+          cb(null, newUser);
+        }
+      } catch (error) {
+        console.log("error from user creation: ", error);
+        cb(error, null);
+      }
     }
   )
 );
