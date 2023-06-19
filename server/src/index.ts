@@ -4,6 +4,8 @@ import cors from "cors";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
 import passport from "passport";
+import User from "./User";
+import { InterfaceMongoDBUser } from "./types";
 
 const MongoDBStoreSession = MongoDBStore(session);
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -54,12 +56,58 @@ passport.use(
     },
 
     // this function gets called on successfull authentication
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function (
+      accessToken: any,
+      refreshToken: any,
+      profile: any,
+      cb: any
+    ) {
+      // userDetectionOrCreation(profile, cb);
       console.log("profile: ", profile);
-      cb(null, profile);
+      // cb(null, profile);
+
+      try {
+        const userDoc = await User.findOne({ googleId: profile.id });
+        if (!userDoc) {
+          console.log("came to this point..");
+          const newUser = new User({
+            googleId: profile.id,
+            username: profile.name.givenName,
+          });
+
+          console.log("user created: ", newUser);
+
+          await newUser.save();
+          cb(null, newUser);
+        }
+      } catch (error) {
+        console.log("error from user creation: ", error);
+        cb(error, null);
+      }
     }
   )
 );
+
+// const userDetectionOrCreation = async (cbFunc: any, profile: any) => {
+//   try {
+//     const userDoc = User.findOne({ googleId: profile.id });
+//     if (!userDoc) {
+//       console.log("came to this point..");
+//       const newUser = new User({
+//         googleId: profile.id,
+//         username: profile.name.givenName,
+//       });
+
+//       console.log("user created: ", newUser);
+
+//       await newUser.save();
+//       cbFunc(null, newUser);
+//     }
+//   } catch (error) {
+//     console.log("error from user creation: ", error);
+//     cbFunc(error, null);
+//   }
+// };
 
 passport.use(
   new GitHubStrategy(
@@ -73,6 +121,7 @@ passport.use(
     function (accessToken: any, refreshToken: any, profile: any, cb: any) {
       console.log("profile: ", profile);
       cb(null, profile);
+      // save user in DB
     }
   )
 );
