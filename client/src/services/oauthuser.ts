@@ -14,3 +14,16 @@ export const getOauthUser = async () => {
     console.log(error);
   }
 };
+
+export const logout = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/logout`, {
+      withCredentials: true,
+    });
+    if (response.data === "done") {
+      window.location.href = "/";
+    }
+  } catch (error) {
+    console.log("logout error: ", error);
+  }
+};

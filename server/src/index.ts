@@ -40,11 +40,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user: any, done: any) => {
-  return done(null, user);
+  return done(null, user._id);
 });
 
-passport.deserializeUser((user: any, done: any) => {
-  return done(null, user);
+passport.deserializeUser(async (id: any, done: any) => {
+  try {
+    const user: InterfaceMongoDBUser = await User.findById(id);
+
+    // whatever we return goes to client and binds with req.user property
+    return done(null, user);
+  } catch (error) {
+    console.log("error on deserializeUser: ", error);
+  }
 });
 
 passport.use(
@@ -76,6 +83,8 @@ passport.use(
 
           await newUser.save();
           cb(null, newUser);
+        } else {
+          cb(null, userDoc);
         }
       } catch (error) {
         console.log("error from user creation: ", error);
@@ -106,6 +115,7 @@ passport.use(
 
       try {
         const userDoc = await User.findOne({ githubId: profile.id });
+        console.log("user-doc: ", userDoc);
         if (!userDoc) {
           const newUser = new User({
             githubId: profile.id,
@@ -114,6 +124,8 @@ passport.use(
 
           await newUser.save();
           cb(null, newUser);
+        } else {
+          cb(null, userDoc);
         }
       } catch (error) {
         console.log("error from user creation: ", error);
@@ -151,6 +163,28 @@ app.get(
 
 app.get("/getauthuser", (req, res) => {
   res.send(req.user);
+});
+
+app.get("/logout", (req, res) => {
+  if (req.user) {
+    req.logout(function (err) {
+      if (err) {
+        console.log("Logout error: ", err);
+        return res.status(500).send("Internal Server Error");
+      }
+
+      req.session.destroy(function (err) {
+        if (err) {
+          console.log("Session destroy error: ", err);
+          return res.status(500).send("Internal Server Error");
+        }
+
+        res.send("done");
+      });
+    });
+  } else {
+    res.send("User not logged in");
+  }
 });
 
 app.get("/", (req, res) => {

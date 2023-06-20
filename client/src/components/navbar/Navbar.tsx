@@ -2,10 +2,16 @@ import { useContext } from "react";
 import styles from "./navbar.module.css";
 import { Link } from "react-router-dom";
 import { OathContext } from "../../context/oauthContext";
+import { logout } from "../../services/oauthuser";
 
 const Navbar = () => {
   const authUser = useContext(OathContext);
   console.log("auth-user: ", authUser);
+
+  const logoutUser = () => {
+    logout();
+  };
+
   return (
     <div className={styles.nav}>
       <div className={styles.nav_wrapper}>
@@ -23,11 +29,20 @@ const Navbar = () => {
             />
           </li>
           <li className={styles.nav_list_item}>Raju Lama</li>
-          <li className={styles.nav_list_item}>
-            <Link className={styles.link} to="/signin">
-              Signin
-            </Link>
-          </li>
+          {authUser ? (
+            <li
+              onClick={() => logoutUser()}
+              className={`${styles.nav_list_item} ${styles.logoutBtn}`}
+            >
+              logout
+            </li>
+          ) : (
+            <li className={styles.nav_list_item}>
+              <Link className={styles.link} to="/signin">
+                Signin
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
